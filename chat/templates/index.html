@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Chat Rooms</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+
+</head>
+<body>
+
+
+    <div class="">
+        <ul>
+           
+    {% for i in users %}
+     <li>
+                <a href="{{i.id}}" class="flex p-4 gap-3 items-center border-b-2">
+                    <!-- room bg image/room icon -->
+                    <div class=" rounded-full bg-blue-300 text-white text-center">
+                        <p class="py-2 px-3">R</p>
+                    </div>
+                    <div class="">
+                        <div  class="text-lg font-semibold flex items-center gap-2">
+                            <p>{{i.username}}</p>
+
+                            <!-- active group notifier -->
+                            <div class="w-2 h-2 bg-green-600 rounded-full"></div>
+                        </div>
+                        <p>last message</p>
+                    </div>
+                </a>
+            </li>
+    {% endfor %}
+        </ul>
+    </div>
+</body>
+    <script>
+        {% comment %} document.querySelector('#room-name-input').focus();
+        document.querySelector('#room-name-input').onkeyup = function(e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#room-name-submit').click();
+            }
+        };
+
+        document.querySelector('#room-name-submit').onclick = function(e) {
+            var roomName = document.querySelector('#room-name-input').value;
+            window.location.pathname = '/chat/' + roomName + '/';
+        }; {% endcomment %}
+    </script>
+</body>
+</html>
