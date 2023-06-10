@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>Chat Rooms</title>
+    <title>welcome {{request.user.username}}</title>
     <link rel="stylesheet" href="{% static 'styles.css' %}">
 
 </head>
@@ -18,7 +18,7 @@
                 <a href="{{i.id}}" class="flex p-4 gap-3 items-center border-b-2">
                     <!-- room bg image/room icon -->
                     <div class=" rounded-full bg-blue-300 text-white text-center">
-                        <p class="py-2 px-3">R</p>
+                        <p class="py-2 px-3">{{request.user.username.0 |title}}</p>
                     </div>
                     <div class="">
                         <div  class="text-lg font-semibold flex items-center gap-2">

@@ -1,6 +1,6 @@
-from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages,auth
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -18,7 +18,7 @@ def index(request):
 
 @login_required(login_url="login")
 def room(request, userId):
-    recipent = CustomUser.objects.get(id=userId).username 
+    recipent = CustomUser.objects.get(id=userId).username
     username = request.user.username
     room_name = generate_room_name(recipent,username)
     return render(request, 'room.html', {
@@ -28,11 +28,15 @@ def room(request, userId):
     })
 
 
+# for group rooms
 
 # # grab messages on entering room
 # # api response
+@login_required(login_url='login')
 @api_view(["GET"])
 def get_messages(request,roomName):
+    if request.user.username not in roomName:
+        return Response(status=404)
     messages = Messages.objects.filter(reciever = roomName)
     serialized_data = MessageSerializer(messages,many=True)
     return Response(serialized_data.data)
@@ -44,25 +48,24 @@ def login(request):
     if request.method ==  'POST':
         username = request.POST['username']
         password = request.POST['password']
-        user = authenticate(username=username,password=password)
+        user = auth.authenticate(username=username,password=password)
         
         if user is not None:
-            login(request,user)
+            auth.login(request,user)
+            return redirect('index')
         else:
-            ...
+            messages.info(request,"invalid username or password")
     return render(request,'login.html',{})
 
 
 @login_required(login_url="login")
 def logout(request):
-    user = request.user
-    logout(request,user)
+    auth.logout(request)
     return redirect("login")
 
 
 
 def signup(request):
-    
     if request.method == 'POST':
         username = request.POST['username']
         email = request.POST['email']
@@ -77,7 +80,7 @@ def signup(request):
                     email=email
                 )
                 user.save()
-                login(request,user)
+                auth.login(request,user)
                 return redirect("index")
             else:
                 messages.info(request,'username already exists')

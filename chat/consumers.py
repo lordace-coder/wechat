@@ -1,7 +1,7 @@
 import json
 from channels.generic.websocket import WebsocketConsumer
-from .models import Messages
-from django.contrib.auth.models import User
+from .models import Messages,CustomUser
+
 from asgiref.sync import async_to_sync
 class ChatRoomConsumer(WebsocketConsumer):
     def connect(self):
@@ -50,7 +50,7 @@ class ChatRoomConsumer(WebsocketConsumer):
         })))
 
     def new_message(self,data):
-        sender = User.objects.get(username = data['username'])
+        sender = CustomUser.objects.get(username = data['username'])
         msg = Messages.objects.create(author = sender,reciever=data["room_name"],message=data["message"])
         print('saved')
         msg.save()
