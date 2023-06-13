@@ -7,8 +7,8 @@ module.exports = {
   mode: 'jit',
   // purge:[],
   content: [
-    './chat//*.html',
-    './chat//*.js',
+    './chat/templates//*.html',
+    './chat/templates//*.js',
     './src//*.jsx',
   ],
   theme: {

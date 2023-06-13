@@ -17,27 +17,29 @@
 
 </head>
 
-<body class="bg-gray-300">
+<body class="bg-gray-300 overflow-x-hidden">
         <!-- chat bar -->
-        <nav class="fixed top-0 w-[100vw] py-4 px-3 bg-blue-500 text-white flex justify-between">
-            <a href="">
+        <nav class="fixed top-0 w-[100vw] py-4 px-3 bg-blue-500 text-white ">
+            <div href="" class='flex gap-3'>
+                <a href="../" class='text-xl'>&laquo;</a>
                  <p  class="text-lg font-semibold hover:text-xl transition-all">{{recipient}}</p>
-            </a>
+            </div>
          </nav>
      
      
      
          <!-- chats container -->
-         <div id='chat-cont' class="px-3 tw-pt-36 tw-mb-[50px] w-[100vw] tw-overflow-y-scroll">
      
+            <div id='chat-cont' class="px-5 tw-pt-36 mb-[100px] w-[100vw] ">  
             
-            
-         </div>
+            </div>
+   
+ 
      
     <!-- bootom text bar -->
     <div class="fixed bottom-0 tw-left-1/2 tw-translate-x-[-50%] tw-bg-gray-100 tw-w-full tw-flex tw-justify-center tw-p-5">
-        <div class=" p-3 rounded-lg tw-shadow-lg bg-white flex">
-            <input type="text" class="border-2 rounded-lg border-purple-500 px-2" placeholder="type a message..">
+        <div class=" p-2 rounded-lg tw-shadow-lg bg-white flex">
+            <input type="text" id='input' class="border-2 rounded-lg border-purple-500 px-2" placeholder="type a message..">
             <button id="submit" class="rounded-lg bg-blue-500 text-white p-1 px-2">
                 send
             </button>
@@ -84,7 +86,7 @@
             //append new message into (#chat-cont)
             if (data.username == user_username) {
                 // if the current user owns this message
-                document.querySelector("#chat-cont").innerHTML += ` <div class="w-full mb-3 flex justify-end">
+                document.querySelector("#chat-cont").innerHTML += ` <div class="w-full mb-3 px-4 flex justify-end">
              
              <!-- chat bubble -->
              <div class="p-3 max-w-[280px] text-blue-600 bg-white shadow-lg rounded-xl rounded-ee-none ">

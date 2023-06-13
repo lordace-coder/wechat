@@ -528,6 +528,9 @@ h5 {
     max-width: 1536px;
   }
 } 
+.static {
+  position: static;
+} 
 .fixed {
   position: fixed;
 } 
@@ -574,6 +577,12 @@ h5 {
 .mt-2 {
   margin-top: 0.5rem;
 } 
+.mb-\[50px\] {
+  margin-bottom: 50px;
+} 
+.mb-\[100px\] {
+  margin-bottom: 100px;
+} 
 .block {
   display: block;
 } 
@@ -594,9 +603,6 @@ h5 {
 } 
 .h-6 {
   height: 1.5rem;
-} 
-.h-\[100px\] {
-  height: 100px;
 } 
 .h-\[100vh\] {
   height: 100vh;
@@ -670,6 +676,15 @@ h5 {
 .gap-3 {
   gap: 0.75rem;
 } 
+.overflow-hidden {
+  overflow: hidden;
+} 
+.overflow-x-hidden {
+  overflow-x: hidden;
+} 
+.overflow-y-scroll {
+  overflow-y: scroll;
+} 
 .rounded {
   border-radius: 0.25rem;
 } 
@@ -721,10 +736,6 @@ h5 {
   --tw-bg-opacity: 1;
   background-color: rgb(22 163 74 / var(--tw-bg-opacity));
 } 
-.bg-red-400 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(248 113 113 / var(--tw-bg-opacity));
-} 
 .bg-transparent {
   background-color: transparent;
 } 
@@ -744,6 +755,9 @@ h5 {
 } 
 .p-4 {
   padding: 1rem;
+} 
+.p-2 {
+  padding: 0.5rem;
 } 
 .px-10 {
   padding-left: 2.5rem;
@@ -781,6 +795,10 @@ h5 {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
 } 
+.px-5 {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+} 
 .pb-4 {
   padding-bottom: 1rem;
 } 
@@ -796,6 +814,9 @@ h5 {
 .align-baseline {
   vertical-align: baseline;
 } 
+.font-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+} 
 .text-lg {
   font-size: 1.125rem;
   line-height: 1.75rem;
@@ -803,6 +824,10 @@ h5 {
 .text-sm {
   font-size: 0.875rem;
   line-height: 1.25rem;
+} 
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
 } 
 .font-bold {
   font-weight: 700;
@@ -839,6 +864,10 @@ h5 {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+} 
+.text-red-500 {
+  --tw-text-opacity: 1;
+  color: rgb(239 68 68 / var(--tw-text-opacity));
 } 
 .antialiased {
   -webkit-font-smoothing: antialiased;

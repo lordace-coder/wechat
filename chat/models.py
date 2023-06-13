@@ -56,5 +56,5 @@ class Messages(models.Model):
     
     def save(self, *args, **kwargs) -> None:
         if self.group:
-            self.reciever = self.group
+            self.reciever = self.group.name
             return super().save(*args, **kwargs)    
