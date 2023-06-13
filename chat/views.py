@@ -25,7 +25,8 @@ def room(request, userId):
     return render(request, 'room.html', {
         'room_name': room_name,
         'username':username,
-        'recipient':recipent
+        'recipient':recipent,
+        'private_room':'true'
     })
 
 
@@ -42,7 +43,9 @@ def group_room(request, groupName):
     return render(request, 'room.html', {
         'room_name': room_name,
         'username':username,
-        'recipient':recipent
+        'recipient':recipent,
+        'private_room':'false'
+        
     })
 
 

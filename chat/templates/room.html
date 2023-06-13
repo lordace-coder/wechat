@@ -100,28 +100,51 @@
         </div>`
                 
             }else{
-        
+
             if(!data.profile_image ){
-                document.querySelector("#chat-cont").innerHTML +=`<div class="w-full mb-6 flex gap-3">
-                    <img src="{% static 'default_img.png' %}" class='w-[50px] h-[50px] rounded-full'>
-                 <!-- chat bubble -->
-                 <div class="p-3 max-w-[280px] text-white bg-blue-500 rounded-xl rounded-ss-none ">
-                    <p>
-                    ${data.message}
-                    </p>
-                 </div>`
+                if({{private_room}}){
+                    document.querySelector("#chat-cont").innerHTML +=`<div class="w-full mb-6 flex gap-3">
+                        <img src="{% static 'default_img.png' %}" class='w-[50px] h-[50px] rounded-full'>
+                     <!-- chat bubble -->
+                     <div class="p-3 max-w-[280px] text-white bg-blue-500 rounded-xl rounded-ss-none ">
+                        
+                        <p>
+                        ${data.message}
+                        </p>
+                     </div>`
+                }else{
+                    document.querySelector("#chat-cont").innerHTML +=`<div class="w-full mb-6 flex gap-3">
+                        <img src="{% static 'default_img.png' %}" class='w-[50px] h-[50px] rounded-full'>
+                     <!-- chat bubble -->
+                     <div class="p-3 max-w-[280px] text-white bg-blue-500 rounded-xl rounded-ss-none ">
+                        <p class='text-sm'>${data.username}<p>
+                        <p>
+                        ${data.message}
+                        </p>
+                     </div>`
+                }
             }else{
-                document.querySelector("#chat-cont").innerHTML +=`<div class="w-full mb-6 flex gap-3">
-                    <img src="${data.profile_image}" class='w-[50px] h-[50px] rounded-full'>
-                 <!-- chat bubble -->
-                 <div class="p-3 max-w-[280px] text-white bg-blue-500 rounded-xl rounded-ss-none ">
-                    <p>
-                    ${data.message}
-                    </p>
-                 </div>
-     
-             </div>
-     `}
+                if({{private_room}}){
+                    document.querySelector("#chat-cont").innerHTML +=`<div class="w-full mb-6 flex gap-3">
+                        <img src="${data.profile_image}" class='w-[50px] h-[50px] rounded-full'>
+                     <!-- chat bubble -->
+                     <div class="p-3 max-w-[280px] text-white bg-blue-500 rounded-xl rounded-ss-none ">
+                        
+                        <p>
+                        ${data.message}
+                        </p>
+                     </div>`
+                }else{
+                    document.querySelector("#chat-cont").innerHTML +=`<div class="w-full mb-6 flex gap-3">
+                        <img src="${data.profile_image}" class='w-[50px] h-[50px] rounded-full'>
+                     <!-- chat bubble -->
+                     <div class="p-3 max-w-[280px] text-white bg-blue-500 rounded-xl rounded-ss-none ">
+                        <p class='text-sm'>${data.username}<p>
+                        <p>
+                        ${data.message}
+                        </p>
+                     </div>`
+                }}
             }
         }
 
