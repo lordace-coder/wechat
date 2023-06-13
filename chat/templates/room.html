@@ -11,7 +11,10 @@
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"> {% endcomment %}
 
     <title>Chat Room</title>
+    <link rel="stylesheet" href="{% static 'unprefixed.css' %}">
     <link rel="stylesheet" href="{% static 'styles.css' %}">
+    
+
 </head>
 
 <body class="bg-gray-300">
@@ -25,19 +28,21 @@
      
      
          <!-- chats container -->
-         <div id='chat-cont' class="px-3 mt-36">
+         <div id='chat-cont' class="px-3 tw-pt-36 tw-mb-[50px] w-[100vw] tw-overflow-y-scroll">
      
             
             
          </div>
      
-     <!-- bootom text bar -->
-         <div class="fixed bottom-0 left-1/2 -translate-x-3/4 p-3 rounded-lg bg-white flex">
-             <input type="text" id="input" class="border-2 rounded-lg border-purple-500 px-2" placeholder="type a message..">
-             <button id="submit" class="rounded-lg bg-blue-500 text-white p-1 px-2">
-                 send
-             </button>
-         </div>
+    <!-- bootom text bar -->
+    <div class="fixed bottom-0 tw-left-1/2 tw-translate-x-[-50%] tw-bg-gray-100 tw-w-full tw-flex tw-justify-center tw-p-5">
+        <div class=" p-3 rounded-lg tw-shadow-lg bg-white flex">
+            <input type="text" class="border-2 rounded-lg border-purple-500 px-2" placeholder="type a message..">
+            <button id="submit" class="rounded-lg bg-blue-500 text-white p-1 px-2">
+                send
+            </button>
+        </div>
+    </div>
 
 
     {{ username|json_script:"user_username" }}

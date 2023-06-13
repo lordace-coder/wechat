@@ -1,3 +1,4 @@
+from typing import Iterable, Optional
 from django.db import models
 from django.db import models
 from django.contrib.auth.models import AbstractUser
@@ -6,8 +7,11 @@ from django.urls import reverse,reverse_lazy
 
 
 # Create your models here.
+class Groups(models.Model):
+    name = models.CharField(max_length=100)
 
-
+    def __str__(self) -> str:
+        return self.name
 
 
 
@@ -43,7 +47,14 @@ class CustomUser(AbstractUser):
 
 
 class Messages(models.Model):
+    group = models.ForeignKey(Groups,on_delete=models.SET_NULL,blank=True,null=True)
     author = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
-    reciever = models.CharField(max_length=180,default="lordace_lordace2")
+    reciever = models.CharField(max_length=180,blank=True,null = True)
     message = models.TextField()
     time = models.DateTimeField(auto_now=True)
+    
+    
+    def save(self, *args, **kwargs) -> None:
+        if self.group:
+            self.reciever = self.group
+            return super().save(*args, **kwargs)    

@@ -5,10 +5,10 @@
     <meta charset="utf-8"/>
     <title>welcome {{request.user.username}}</title>
     <link rel="stylesheet" href="{% static 'styles.css' %}">
-
+    {% include 'nav_links.html' %}
 </head>
-<body>
-
+<body class="antialiased">
+    {% include 'nav.html' %}
 
     <div class="">
         <ul>
@@ -18,7 +18,7 @@
                 <a href="{{i.id}}" class="flex p-4 gap-3 items-center border-b-2">
                     <!-- room bg image/room icon -->
                     <div class=" rounded-full bg-blue-300 text-white text-center">
-                        <p class="py-2 px-3">{{request.user.username.0 |title}}</p>
+                        <p class="py-2 px-3">{{i.username.0 |title}}</p>
                     </div>
                     <div class="">
                         <div  class="text-lg font-semibold flex items-center gap-2">
@@ -32,6 +32,26 @@
                 </a>
             </li>
     {% endfor %}
+    <p class="text-center">Groups</p>
+    {% for i in groups %}
+    <li>
+               <a href="{{i}}" class="flex p-4 gap-3 items-center border-b-2">
+                   <!-- room bg image/room icon -->
+                   <div class=" rounded-full bg-blue-300 text-white text-center">
+                       <p class="py-2 px-3">{{i.name.0 |title}}</p>
+                   </div>
+                   <div class="">
+                       <div  class="text-lg font-semibold flex items-center gap-2">
+                           <p>{{i.name}}</p>
+
+                           <!-- active group notifier -->
+                           <div class="w-2 h-2 bg-green-600 rounded-full"></div>
+                       </div>
+                       <p>last message</p>
+                   </div>
+               </a>
+           </li>
+   {% endfor %}
         </ul>
     </div>
 </body>

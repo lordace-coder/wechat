@@ -1,18 +1,19 @@
 from django.contrib import messages,auth
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from .helpers import MessageSerializer, generate_room_name
-from .models import Messages,CustomUser
+from .models import Messages,CustomUser,Groups
 
 @login_required(login_url="login")
 def index(request):
     current_user = request.user
     users = CustomUser.objects.exclude(id=current_user.id)
-    return render(request, 'index.html', {"users":users})
+    groups = Groups.objects.all()
+    return render(request, 'index.html', {"users":users,"groups":groups})
 
 
 
@@ -29,12 +30,34 @@ def room(request, userId):
 
 
 # for group rooms
+@login_required(login_url="login")
+def group_room(request, groupName):
+    if not Groups.objects.filter(name=groupName).exists():
+        raise Http404
+    
+    
+    recipent = groupName
+    username = request.user.username
+
+    return render(request, 'room.html', {
+        'room_name': recipent,
+        'username':username,
+        'recipient':recipent
+    })
+
+
+
 
 # # grab messages on entering room
 # # api response
 @login_required(login_url='login')
 @api_view(["GET"])
 def get_messages(request,roomName):
+    if Groups.objects.filter(name=roomName).exists():
+        group = Groups.objects.get(name=roomName)
+        messages = Messages.objects.filter(group = group)
+        serialized_data = MessageSerializer(messages,many=True)
+        return Response(serialized_data.data)
     if request.user.username not in roomName:
         return Response(status=404)
     messages = Messages.objects.filter(reciever = roomName)

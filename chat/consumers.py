@@ -1,6 +1,6 @@
 import json
 from channels.generic.websocket import WebsocketConsumer
-from .models import Messages,CustomUser
+from .models import Messages,CustomUser,Groups
 
 from asgiref.sync import async_to_sync
 class ChatRoomConsumer(WebsocketConsumer):
@@ -51,6 +51,12 @@ class ChatRoomConsumer(WebsocketConsumer):
 
     def new_message(self,data):
         sender = CustomUser.objects.get(username = data['username'])
-        msg = Messages.objects.create(author = sender,reciever=data["room_name"],message=data["message"])
-        print('saved')
+        
+        group_name = data['room_name']
+        if Groups.objects.filter(name=group_name).exists():
+            group = Groups.objects.get(name = group_name)
+            msg = Messages.objects.create(author = sender,reciever=data["room_name"],message=data["message"],group = group)
+        else:
+            msg = Messages.objects.create(author = sender,reciever=data["room_name"],message=data["message"])
+                
         msg.save()
