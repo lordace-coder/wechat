@@ -8,3 +8,13 @@
 }
 
 
+/* tag loops */
+.blue{
+    @apply bg-blue-300;
+}
+.red{
+    @apply bg-red-300;
+}
+.green{
+    @apply bg-green-300;
+}

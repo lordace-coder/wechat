@@ -43,7 +43,14 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.username
     
-
+    
+    def get_image_url(self):
+        url = f'{self.profile_image}'
+        print(self.profile_image)
+        if 'images/profile_image' not in url:
+            url = None
+        # print(self.get_absolute_url())
+        return url
 
 
 class Messages(models.Model):
@@ -57,4 +64,4 @@ class Messages(models.Model):
     def save(self, *args, **kwargs) -> None:
         if self.group:
             self.reciever = self.group.name
-            return super().save(*args, **kwargs)    
+        return super().save(*args, **kwargs)    

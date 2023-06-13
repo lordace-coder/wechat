@@ -14,7 +14,7 @@
     <div class="flex w-[100vw] h-[100vh] items-center justify-center">
         <div class="w-full max-w-xs">
           {% for txt in messages %}
-          <p>{{txt}}</p>
+          <p class='text-lg font-semibold text-red-500 font-mono text-center'>{{txt}}</p>
           {% endfor %}
             <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" method="POST">
               {% csrf_token %}
@@ -29,8 +29,13 @@
                   Password
                 </label>
               
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline id="password" type="password" name="password" placeholder="******************">
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline " id="password" type="password" name="password" placeholder="******************">
               </div>
+              <div class='w-full text-center py-3'>
+                 already have an account <a href="{% url 'signup' %}" class=" text-blue-500">signup </a>
+
+              </div>
+             
               <div class="flex items-center justify-between">
                 <input type='submit' class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 value="Login"> 

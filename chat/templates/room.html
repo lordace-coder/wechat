@@ -20,8 +20,8 @@
 <body class="bg-gray-300 overflow-x-hidden">
         <!-- chat bar -->
         <nav class="fixed top-0 w-[100vw] py-4 px-3 bg-blue-500 text-white ">
-            <div href="" class='flex gap-3'>
-                <a href="../" class='text-xl'>&laquo;</a>
+            <div  class='flex gap-3'>
+                <a href="{% url 'index' %}" class='text-xl'>&laquo;</a>
                  <p  class="text-lg font-semibold hover:text-xl transition-all">{{recipient}}</p>
             </div>
          </nav>
@@ -46,7 +46,7 @@
         </div>
     </div>
 
-
+<p class='w-[50px] h-[50px] '></p>
     {{ username|json_script:"user_username" }}
     {{ room_name|json_script:"room-name" }}
     <script>
@@ -57,6 +57,7 @@
             chatSocket.send(JSON.stringify({
                 'message': message,
                 'username': user_username,
+                'profile_image':'{{request.user.profile_image}}'
             }));
             messageInputDom.value = '';
         };
@@ -76,7 +77,7 @@
 
         chatSocket.onmessage = function (e) {
             const data = JSON.parse(e.data);
-            console.log(data)
+           
             create_message(data)
         }
 
@@ -84,8 +85,10 @@
         function create_message(data){
           //document.querySelector('#chat-text').value += (data.username + ': ' + data.message + '\n')
             //append new message into (#chat-cont)
+
             if (data.username == user_username) {
                 // if the current user owns this message
+     
                 document.querySelector("#chat-cont").innerHTML += ` <div class="w-full mb-3 px-4 flex justify-end">
              
              <!-- chat bubble -->
@@ -97,7 +100,19 @@
         </div>`
                 
             }else{
-                document.querySelector("#chat-cont").innerHTML +=`<div class="w-full mb-6 flex">
+        
+            if(!data.profile_image ){
+                document.querySelector("#chat-cont").innerHTML +=`<div class="w-full mb-6 flex gap-3">
+                    <img src="{% static 'default_img.png' %}" class='w-[50px] h-[50px] rounded-full'>
+                 <!-- chat bubble -->
+                 <div class="p-3 max-w-[280px] text-white bg-blue-500 rounded-xl rounded-ss-none ">
+                    <p>
+                    ${data.message}
+                    </p>
+                 </div>`
+            }else{
+                document.querySelector("#chat-cont").innerHTML +=`<div class="w-full mb-6 flex gap-3">
+                    <img src="${data.profile_image}" class='w-[50px] h-[50px] rounded-full'>
                  <!-- chat bubble -->
                  <div class="p-3 max-w-[280px] text-white bg-blue-500 rounded-xl rounded-ss-none ">
                     <p>
@@ -106,7 +121,7 @@
                  </div>
      
              </div>
-     `
+     `}
             }
         }
 

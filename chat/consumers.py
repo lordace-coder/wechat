@@ -38,6 +38,7 @@ class ChatRoomConsumer(WebsocketConsumer):
                 'type': 'chatroom_message',
                 'message': message,
                 'username': username,
+                'profile_image':text_data_json['profile_image']
             }
         )
 
@@ -47,6 +48,7 @@ class ChatRoomConsumer(WebsocketConsumer):
         async_to_sync( self.send(text_data=json.dumps({
             'message': message,
             'username': username,
+            'profile_image':event.get('profile_image',' ')
         })))
 
     def new_message(self,data):
@@ -56,7 +58,8 @@ class ChatRoomConsumer(WebsocketConsumer):
         if Groups.objects.filter(name=group_name).exists():
             group = Groups.objects.get(name = group_name)
             msg = Messages.objects.create(author = sender,reciever=data["room_name"],message=data["message"],group = group)
+            msg.save()
         else:
             msg = Messages.objects.create(author = sender,reciever=data["room_name"],message=data["message"])
                 
-        msg.save()
+            msg.save()
