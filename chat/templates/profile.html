@@ -1,0 +1,16 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>welcome {{request.user.username}}</title>
+   <link rel="stylesheet" href="{% static 'styles.css' %}"> 
+    {% comment %} ! might cause problems later with the navbar {% endcomment %}
+ <link rel="stylesheet" href="{% static 'unprefixed.css' %}"> 
+
+    {% include 'nav_links.html' %}
+</head>
+<body class="antialiased">
+    {{user.username}}s profile
+</body>
+</html>

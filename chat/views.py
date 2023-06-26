@@ -1,31 +1,101 @@
-from django.contrib import messages,auth
+from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.views import generic
+from .helpers import MessageSerializer, format_roomname, generate_room_name,user_to_dict
+from .models import CustomUser, Groups, Messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .helpers import MessageSerializer, generate_room_name,format_roomname
-from .models import Messages,CustomUser,Groups
 
-@login_required()
-def index(request):
-    current_user = request.user
-    users = CustomUser.objects.exclude(id=current_user.id)
-    groups = Groups.objects.all()
-    return render(request, 'index.html', {"users":users,"groups":groups})
+
+class IndexView(LoginRequiredMixin,generic.TemplateView):
+    template_name = 'index.html'
+    
+    def get_context(self)->dict:
+        request = self.request
+        current_user = self.request.user
+        users = CustomUser.objects.none()
+       
+       
+    #    * check for recent chats
+        if 'recent_chats' in request.session:
+           users:list = request.session['recent_chats']
+           print(request.session['recent_chats'])
+        else:
+            request.session['recent_chats'] = list()
+            users:list = request.session['recent_chats']
+            
+        users.reverse() 
+        context = {
+            "users":users,
+            'view_name':'index'
+        }
+        return context
+    
+    
+    
+    def get(self,*args, **kwargs):
+        context = self.get_context()
+        return render(self.request, 'index.html', context)
+    
+    
+index = IndexView.as_view()
+
+
+
+
+
+
+class GroupChatView(IndexView):
+    
+    def get_context(self)->dict:
+        current_user = self.request.user
+        groups = Groups.objects.all()
+       
+        context = {
+            "groups":groups,
+            'view_name':'index'
+        }
+        return context
+        
+
+
+class ListUsersView(IndexView):
+    template_name = 'list_users.html'
+    def get_context(self)->dict:
+        context = super().get_context()
+        context['users'] = CustomUser.objects.exclude(id=self.request.user.id).order_by('?')
+        return context 
+    def get(self, *args, **kwargs):
+        return render(self.request,self.template_name,self.get_context())
 
 
 
 @login_required()
 def room(request, userId):
-    recipent = CustomUser.objects.get(id=userId).username
+    recipent = CustomUser.objects.get(id=userId)
+    # if recipent in sessions remove and add back to the top of the list
+    reciever = user_to_dict(recipent)
+
+    if reciever in request.session['recent_chats']:
+        request.session['recent_chats'].remove(reciever)
+        request.session['recent_chats'].append(reciever)
+        request.session.modified = True
+        
+    else:
+        request.session['recent_chats'].append(reciever)
+        
+        request.session.modified = True
+    # else add recipent to sessions
     username = request.user.username
-    room_name = generate_room_name(recipent,username)
+    room_name = generate_room_name(recipent.username,username)
     return render(request, 'room.html', {
         'room_name': room_name,
         'username':username,
-        'recipient':recipent,
+        'recipient':recipent.username,
         'private_room':'true'
     })
 
@@ -99,6 +169,9 @@ def signup(request):
         password = request.POST['password']
         confirm_password = request.POST['confirm_password']
         
+        if ' ' in username:
+            messages.info(request,"Username cant contain a 'space' ")
+            return redirect('signup')
         if password == confirm_password:
             if len(password) >= 8 :
                 if not CustomUser.objects.filter(username=username).exists():
@@ -125,4 +198,15 @@ def signup(request):
     return render(request,'signup.html',{})
 
 
+# *profile view
+class ProfileDetailView(generic.DetailView):
+    context_object_name = 'user'
+    queryset = CustomUser.objects.all()
+    template_name = 'profile.html'
+    slug_field = 'username'
+    slug_url_kwarg = 'username'
+    
+    
 #todo: Add password recovery view here
+def redirect_to_homepage(request):
+    return redirect('index')

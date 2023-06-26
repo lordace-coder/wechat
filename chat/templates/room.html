@@ -21,7 +21,7 @@
         <!-- chat bar -->
         <nav class="fixed top-0 w-[100vw] py-4 px-3 bg-blue-500 text-white ">
             <div  class='flex gap-3'>
-                <a href="{% url 'index' %}" class='text-xl'>&laquo;</a>
+                <a onclick='window.history.back()' class='text-xl tw-cursor-pointer'>&laquo;</a>
                  <p  class="text-lg font-semibold hover:text-xl transition-all">{{recipient}}</p>
             </div>
          </nav>

@@ -12,8 +12,11 @@ urlpatterns = [
     
     path('', views.index, name='index'),
     path('<int:userId>', views.room, name='room'),
-    path('<str:groupName>', views.group_room, name='group_room'),
+    path('groups/<str:groupName>', views.group_room, name='group_room'),
     path('messages/<str:roomName>',views.get_messages,name="messages"),
+    path('groups/',views.GroupChatView.as_view(),name='groups'),
+    path('users/',views.ListUsersView.as_view(),name='all_users'),
+    path('profile/<slug:username>',views.ProfileDetailView.as_view(),name='profile'),
 
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

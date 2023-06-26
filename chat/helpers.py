@@ -1,4 +1,4 @@
-from .models import Messages
+from .models import Messages,CustomUser
 from rest_framework import serializers
 
 
@@ -28,3 +28,13 @@ def format_roomname(name:str):
     if ' ' in name:
         name = name.replace(' ','_')
     return name
+
+
+def user_to_dict(instance:CustomUser)->dict:
+    user = dict()
+    user['username'] = instance.username
+    user['email'] = instance.email
+    user['bio'] = instance.bio
+    user['id'] = instance.id
+    user['profile_image'] = instance.profile_image.url
+    return user

@@ -3,7 +3,7 @@ const plugin = require('tailwindcss/plugin');
 
 
 module.exports = {
-  // prefix:'tw-',
+  prefix:'tw-',
   mode: 'jit',
   // purge:[],
   content: [
