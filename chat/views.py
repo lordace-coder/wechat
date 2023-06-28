@@ -8,6 +8,7 @@ from django.views import generic
 from .helpers import MessageSerializer, format_roomname, generate_room_name,user_to_dict
 from .models import CustomUser, Groups, Messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 
 
 
@@ -23,7 +24,6 @@ class IndexView(LoginRequiredMixin,generic.TemplateView):
     #    * check for recent chats
         if 'recent_chats' in request.session:
            users:list = request.session['recent_chats']
-           print(request.session['recent_chats'])
         else:
             request.session['recent_chats'] = list()
             users:list = request.session['recent_chats']
@@ -65,12 +65,22 @@ class GroupChatView(IndexView):
 
 class ListUsersView(IndexView):
     template_name = 'list_users.html'
-    def get_context(self)->dict:
+    def get_object(self):
+        obj = CustomUser.objects.exclude(id=self.request.user.id).order_by('?')
+        return obj
+    def get_context(self,obj = None)->dict:
         context = super().get_context()
         context['users'] = CustomUser.objects.exclude(id=self.request.user.id).order_by('?')
+        if obj:
+            context['users'] = obj
         return context 
     def get(self, *args, **kwargs):
-        return render(self.request,self.template_name,self.get_context())
+        obj = None
+        if 'q' in self.request.GET:
+            q = self.request.GET['q']
+            multiple_q = Q(Q(username__icontains=q)|Q(email__icontains=q))
+            obj = self.get_object().filter(multiple_q).order_by('username')
+        return render(self.request,self.template_name,self.get_context(obj))
 
 
 
@@ -137,7 +147,7 @@ def get_messages(request,roomName):
     serialized_data = MessageSerializer(messages,many=True)
     return Response(serialized_data.data)
 
-#todo Add chat a random person functionality
+
 
 # ! Authentication views
 
@@ -205,6 +215,12 @@ class ProfileDetailView(generic.DetailView):
     template_name = 'profile.html'
     slug_field = 'username'
     slug_url_kwarg = 'username'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["my_profile"] = self.get_object() == self.request.user
+        return context
+    
     
     
 #todo: Add password recovery view here

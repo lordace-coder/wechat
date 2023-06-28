@@ -3,11 +3,12 @@ const plugin = require('tailwindcss/plugin');
 
 
 module.exports = {
-  prefix:'tw-',
+  // prefix:'tw-',
   mode: 'jit',
   // purge:[],
   content: [
     './chat/templates//*.html',
+    './chat/static//*.html',
     './chat/templates//*.js',
     './src//*.jsx',
   ],

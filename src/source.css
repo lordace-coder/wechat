@@ -7,7 +7,9 @@
     scroll-behavior: smooth;
 }
 
-
+/* .classic-btn{
+    @apply tw-p-3 tw-py-2 tw-rounded-lg;
+} */
 /* tag loops */
 /* .blue{
     @apply bg-blue-300;

@@ -46,10 +46,10 @@ class CustomUser(AbstractUser):
     
     def get_image_url(self):
         url = f'{self.profile_image}'
-        print(self.profile_image)
+        print("image",self.profile_image)
         if 'images/profile_image' not in url:
             url = None
-        # print(self.get_absolute_url())
+  
         return url
 
 
