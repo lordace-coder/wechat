@@ -8,6 +8,7 @@ module.exports = {
   // purge:[],
   content: [
     './chat/templates//*.html',
+    './chat/templates/components//*.html',
     './chat/static//*.html',
     './chat/templates//*.js',
     './src//*.jsx',

@@ -18,7 +18,8 @@
         <ul>
            
     {% for i in users %}
-     <li>
+    {% include 'components/user_select.html' %}
+     {% comment %} <li>
         
                     <!-- room bg image/room icon -->
                     <div class='flex p-4 gap-3 items-center border-b-2'>
@@ -39,7 +40,7 @@
                     </div>
                 </a>
             </div>
-            </li>
+            </li> {% endcomment %}
     {% endfor %}
     {% for i in groups %}
     <li>

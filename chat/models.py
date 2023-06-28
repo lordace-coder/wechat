@@ -17,7 +17,7 @@ class Groups(models.Model):
 
 
 class CustomUser(AbstractUser):
-    profile_image = models.ImageField(blank=True,null=True,upload_to='images/profile_images',default='default_img.png')
+    profile_image = models.ImageField(blank=True,null=True,upload_to='images/profile_images',default='images/profile_images/default_img.png')
 
     email = models.CharField(max_length=200)
 
@@ -45,12 +45,10 @@ class CustomUser(AbstractUser):
     
     
     def get_image_url(self):
-        url = f'{self.profile_image}'
-        print("image",self.profile_image)
-        if 'images/profile_image' not in url:
-            url = None
-  
-        return url
+        if self.profile_image:
+            return f'{self.profile_image.url}'
+        else:
+            return '/images/profile_images/default_img.png'
 
 
 class Messages(models.Model):

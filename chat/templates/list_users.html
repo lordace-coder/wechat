@@ -29,28 +29,7 @@
         <ul>
            
     {% for i in users %}
-     <li>
-        
-                    <!-- room bg image/room icon -->
-                    <div class='flex p-4 gap-3 items-center border-b-2'>
-                        <div class=" rounded-full {% cycle 'bg-blue-300' 'bg-red-300' 'tw-bg-green-300' %} text-white text-center">
-                            <a href="{% url 'profile' i.username %}">
-                                 <p class="py-2 px-3">{{i.username.0 |title}}</p>
-                            </a>
-                        </div>
-                    <a href="{% url 'room' i.id %}" class="">
-    
-                        <div class="">
-                            <div  class="text-lg font-semibold flex items-center gap-2">
-                                <p>{{i.username}}</p>
-    
-                                <!-- active group notifier -->
-                                <div class="w-2 h-2 bg-green-600 rounded-full"></div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </li>
+        {% include 'components/user_select.html' %}
     {% endfor %}
 
         </ul>

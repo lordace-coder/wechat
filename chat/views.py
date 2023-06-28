@@ -1,6 +1,7 @@
+from typing import Any
 from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -8,6 +9,7 @@ from django.views import generic
 from .helpers import MessageSerializer, format_roomname, generate_room_name,user_to_dict
 from .models import CustomUser, Groups, Messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 
 
@@ -89,7 +91,9 @@ def room(request, userId):
     recipent = CustomUser.objects.get(id=userId)
     # if recipent in sessions remove and add back to the top of the list
     reciever = user_to_dict(recipent)
-
+    for i in request.session['recent_chats']:
+        if i['id'] == reciever['id']:
+            request.session['recent_chats'].remove(i)
     if reciever in request.session['recent_chats']:
         request.session['recent_chats'].remove(reciever)
         request.session['recent_chats'].append(reciever)
@@ -176,6 +180,7 @@ def signup(request):
     if request.method == 'POST':
         username = request.POST['username']
         email = request.POST['email']
+        bio = request.POST['bio']
         password = request.POST['password']
         confirm_password = request.POST['confirm_password']
         
@@ -188,7 +193,8 @@ def signup(request):
                     user = CustomUser.objects.create(
                         username = username,
                         password=password,
-                        email=email
+                        email=email,
+                        bio=bio
                     )
                     
                     user.save()
@@ -221,8 +227,48 @@ class ProfileDetailView(generic.DetailView):
         context["my_profile"] = self.get_object() == self.request.user
         return context
     
+
+# * profile edit view
+class EditProfileView(generic.TemplateView):
+    template_name='profile_settings.html'
+    def get_object(self):
+        return self.request.user
+    
+    def get(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
+        # allow only profile owner
+        if request.user != self.get_object():
+            raise PermissionDenied('you dont have permmision to view this page')
+        return super().get(request, *args, **kwargs)
+    
+    
+    def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
+        # update user profile here
+        obj = self.get_object()
+        
+        # get new data
+        username = request.POST['username']
+        image = request.FILES.get('image')
+        bio = request.POST['bio']
+        email = request.POST['email']
+        if image is not None:
+            obj.profile_image = image
+        if ' ' in username:
+            messages.info(request,'invalid character in username')
+            return redirect('update_profile')
+            
+        if not CustomUser.objects.filter(username=username).exists():
+            obj.username = username
+
+        obj.bio = bio
+        obj.email = email
+        
+        obj.save()
+        return redirect('profile' ,username = request.user.username)
     
     
 #todo: Add password recovery view here
 def redirect_to_homepage(request):
+    x = request.session['recent_chats']
+    print(x)
     return redirect('index')
+

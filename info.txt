@@ -3,3 +3,7 @@ password:patrickfavour
 
 account name:lordace2
 password:lordadmin
+
+account name:james
+password:iamjamesaltro
+

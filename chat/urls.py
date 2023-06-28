@@ -17,6 +17,7 @@ urlpatterns = [
     path('groups/',views.GroupChatView.as_view(),name='groups'),
     path('users/',views.ListUsersView.as_view(),name='all_users'),
     path('profile/<slug:username>',views.ProfileDetailView.as_view(),name='profile'),
+    path('updateProfile/',views.EditProfileView.as_view(),name='update_profile'),
 
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

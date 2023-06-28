@@ -19,20 +19,14 @@
             <!-- profile image -->
             <a href="">
                 {% if my_profile %}
-                <img src="
-                            {% if user.get_image_url %}
-                              /{{user.get_image_url}}
-                              {% else %}
-                              {% static 'default_img.png' %}
-                            {% endif %}
-                          " class="tw-rounded-full tw-object-center 
+                <img src=" {{request.user.get_image_url}}  " class="tw-rounded-full tw-object-center 
                             tw-max-w-[200px] 
                             tw-max-h-[150px] tw-mx-auto tw-mb-8 md:tw-absolute md:tw-left-[50%] md:tw-translate-x-[-50%] md:tw-translate-y-[-50%] tw-transition-[position]" alt="">
 
                             {% else %}
                             <img src="
                             {% if user.get_image_url %}
-                             /{{user.get_image_url}}
+                             {{user.get_image_url}}
                               {% else %}
                               {% static 'default_img.png' %}
                             {% endif %}
@@ -49,10 +43,17 @@
 
             <!-- bio -->
             <p class="tw-text-center tw-text-white tw-text-lg tw-font-light tw-max-w-lg tw-mx-auto">{{user.bio}}</p>
-
-           <div class="tw-flex tw-justify-center tw-mt-4">
-            <a href="{% url 'profile' user.username %}" class="classic-btn tw-sha tw-bg-red-500 tw-text-white active:tw-bg-red-600 ">Message</a>        
-           </div>    
+            {% if not my_profile %}
+              <div class="tw-flex tw-justify-center tw-mt-4">
+                <a href="{% url 'room' user.id %}" class="classic-btn tw-sha tw-bg-red-500 tw-text-white active:tw-bg-red-600 ">Message</a>        
+              </div>
+            
+              {% else %}
+              <div class="tw-flex tw-justify-center tw-mt-4">
+                <a href="{% url 'update_profile' %}" class="classic-btn tw-sha tw-bg-green-500 tw-text-white active:tw-bg-red-600 ">UpdateProfile</a>        
+              </div>
+            {% endif %}
+    
         </div>
     </div>
 </body>

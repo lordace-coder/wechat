@@ -36,5 +36,5 @@ def user_to_dict(instance:CustomUser)->dict:
     user['email'] = instance.email
     user['bio'] = instance.bio
     user['id'] = instance.id
-    user['profile_image'] = instance.profile_image.url
+    user['profile_image'] = instance.get_image_url()
     return user
