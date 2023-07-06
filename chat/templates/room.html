@@ -5,11 +5,8 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-{% comment %} 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"> {% endcomment %}
 
+        <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
     <title>Chat Room</title>
     <link rel="stylesheet" href="{% static 'unprefixed.css' %}">
     <link rel="stylesheet" href="{% static 'styles.css' %}">
@@ -27,7 +24,9 @@
                         <p  class="text-lg font-semibold hover:text-xl transition-all">{{recipient}}</p>
                     </a> 
                 {% else %}
-                    <p  class="text-lg font-semibold hover:text-xl transition-all">{{recipient}}</p>
+                <a href="{% url 'profile' recipient.username %}">
+                    <p  class="text-lg font-semibold hover:text-xl transition-all">{{recipient.username}}</p>
+                </a>
                 {% endif %}
 
             </div>
@@ -99,7 +98,7 @@
                 document.querySelector("#chat-cont").innerHTML += ` <div class="w-full mb-3 px-4 flex justify-end">
              
              <!-- chat bubble -->
-             <div class="p-3 max-w-[280px] text-blue-600 bg-white shadow-lg rounded-xl rounded-ee-none ">
+             <div class="p-3 max-w-[280px] text-blue-600 bg-white shadow-lg rounded-xl break-words  rounded-ee-none ">
                  <p>
                   ${data.message}
                  </p>
@@ -113,9 +112,9 @@
                     document.querySelector("#chat-cont").innerHTML +=`<div class="w-full mb-6 flex gap-3">
                         <img src="{% static 'default_img.png' %}" class='w-[50px] h-[50px] rounded-full'>
                      <!-- chat bubble -->
-                     <div class="p-3 max-w-[280px] text-white bg-blue-500 rounded-xl rounded-ss-none ">
+                     <div class="p-3 max-w-[280px] text-white bg-blue-500 rounded-xl break-words rounded-ss-none ">
                         
-                        <p>
+                        <p class=' max-w-[250px]'>
                         ${data.message}
                         </p>
                      </div>`
@@ -123,9 +122,9 @@
                     document.querySelector("#chat-cont").innerHTML +=`<div class="w-full mb-6 flex gap-3">
                         <img src="{% static 'default_img.png' %}" class='w-[50px] h-[50px] rounded-full'>
                      <!-- chat bubble -->
-                     <div class="p-3 max-w-[280px] text-white bg-blue-500 rounded-xl rounded-ss-none ">
+                     <div class="p-3 max-w-[280px] text-white bg-blue-500 rounded-xl break-words  rounded-ss-none ">
                         <p class='text-sm'>${data.username}<p>
-                        <p>
+                        <p class=' max-w-[250px]'>
                         ${data.message}
                         </p>
                      </div>`
@@ -135,9 +134,9 @@
                     document.querySelector("#chat-cont").innerHTML +=`<div class="w-full mb-6 flex gap-3">
                         <img src="${data.profile_image}" class='w-[50px] h-[50px] rounded-full'>
                      <!-- chat bubble -->
-                     <div class="p-3 max-w-[280px] text-white bg-blue-500 rounded-xl rounded-ss-none ">
+                     <div class="p-3 max-w-[280px] text-white bg-blue-500 rounded-xl break-words  rounded-ss-none ">
                         
-                        <p>
+                        <p class=' max-w-[250px]'>
                         ${data.message}
                         </p>
                      </div>`
@@ -145,9 +144,9 @@
                     document.querySelector("#chat-cont").innerHTML +=`<div class="w-full mb-6 flex gap-3">
                         <img src="${data.profile_image}" class='w-[50px] h-[50px] rounded-full'>
                      <!-- chat bubble -->
-                     <div class="p-3 max-w-[280px] text-white bg-blue-500 rounded-xl rounded-ss-none ">
+                     <div class="p-3 max-w-[280px] text-white bg-blue-500 rounded-xl break-words  rounded-ss-none ">
                         <p class='text-sm'>${data.username}<p>
-                        <p>
+                        <p class=' max-w-[250px]'>
                         ${data.message}
                         </p>
                      </div>`

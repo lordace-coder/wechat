@@ -97,7 +97,7 @@ def room(request, userId):
     return render(request, 'room.html', {
         'room_name': room_name,
         'username':username,
-        'recipient':recipent.username,
+        'recipient':recipent,
         'private_room':'true'
     })
 
