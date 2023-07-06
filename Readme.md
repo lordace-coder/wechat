@@ -7,7 +7,7 @@ To startup this application follow the following steps
 + Step2: download required modules and packages
 > navigate to the root of your project and run
     ```
->>    pip install -r requirements.txt
+    pip install -r requirements.txt
     ```
 
 + Step3: setup settings.py to your taste 
