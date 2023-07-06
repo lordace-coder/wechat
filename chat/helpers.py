@@ -1,4 +1,4 @@
-from .models import Messages,CustomUser
+from .models import Messages,RecentMsg
 from rest_framework import serializers
 
 
@@ -29,8 +29,8 @@ def format_roomname(name:str):
         name = name.replace(' ','_')
     return name
 
-
-def user_to_dict(instance:CustomUser)->dict:
+# todo serialize recent messages and return a list of dicts
+def user_to_dict(instance)->dict:
     user = dict()
     user['username'] = instance.username
     user['email'] = instance.email

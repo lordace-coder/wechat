@@ -6,8 +6,8 @@ from django.shortcuts import redirect, render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.views import generic
-from .helpers import MessageSerializer, format_roomname, generate_room_name,user_to_dict
-from .models import CustomUser, Groups, Messages
+from .helpers import MessageSerializer, format_roomname, generate_room_name
+from .models import CustomUser, Groups, Messages, RecentMsg
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
@@ -21,18 +21,11 @@ class IndexView(LoginRequiredMixin,generic.TemplateView):
         request = self.request
         current_user = self.request.user
         users = CustomUser.objects.none()
-       
-       
-    #    * check for recent chats
-        if 'recent_chats' in request.session:
-           users:list = request.session['recent_chats']
-        else:
-            request.session['recent_chats'] = list()
-            users:list = request.session['recent_chats']
-            
-        users.reverse() 
+        recents = RecentMsg.objects.filter(users = self.request.user).order_by('-last_msg')
+        # TODO: serialize this info and only include values lyk the other users info and lastmsg do this in the helpers.py
+        for i in recents:
+            print(i.users.all(),'users')
         context = {
-            "users":users,
             'view_name':'index'
         }
         return context
@@ -89,23 +82,18 @@ class ListUsersView(IndexView):
 @login_required()
 def room(request, userId):
     recipent = CustomUser.objects.get(id=userId)
-    # if recipent in sessions remove and add back to the top of the list
-    reciever = user_to_dict(recipent)
-    for i in request.session['recent_chats']:
-        if i['id'] == reciever['id']:
-            request.session['recent_chats'].remove(i)
-    if reciever in request.session['recent_chats']:
-        request.session['recent_chats'].remove(reciever)
-        request.session['recent_chats'].append(reciever)
-        request.session.modified = True
-        
-    else:
-        request.session['recent_chats'].append(reciever)
-        
-        request.session.modified = True
-    # else add recipent to sessions
+
     username = request.user.username
     room_name = generate_room_name(recipent.username,username)
+    
+    # *create new instance of recentmsg for this chat
+    recent_msg = RecentMsg.objects.filter(group_name = room_name)
+    if not recent_msg.exists():
+        recent_msg = RecentMsg.objects.create(
+            group_name = room_name,
+        )
+        recent_msg.users.add(recipent,request.user)
+        recent_msg.save()
     return render(request, 'room.html', {
         'room_name': room_name,
         'username':username,
@@ -268,7 +256,5 @@ class EditProfileView(generic.TemplateView):
     
 #todo: Add password recovery view here
 def redirect_to_homepage(request):
-    x = request.session['recent_chats']
-    print(x)
     return redirect('index')
 

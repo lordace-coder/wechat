@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import CustomUserCreationForm
-from .models import CustomUser, Groups, Messages
+from .models import CustomUser, Groups, Messages,RecentMsg
 
 
 class CustomUserAdmin(UserAdmin):
@@ -26,3 +26,4 @@ admin.site.register(CustomUser,CustomUserAdmin)
 
 admin.site.register(Messages)
 admin.site.register(Groups)
+admin.site.register(RecentMsg)

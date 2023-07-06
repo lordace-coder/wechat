@@ -62,4 +62,21 @@ class Messages(models.Model):
     def save(self, *args, **kwargs) -> None:
         if self.group:
             self.reciever = self.group.name
-        return super().save(*args, **kwargs)    
+        
+        # update recent message
+        try:
+            recent_msg = RecentMsg.objects.get(group_name = self.reciever)
+            recent_msg.last_msg = self
+            super().save(*args, **kwargs)
+            
+            return recent_msg.save()
+        except Exception as e:
+            print(self.reciever)
+            print('error',e)
+        return super().save(*args, **kwargs)
+
+
+class RecentMsg(models.Model):
+    group_name = models.CharField(max_length=250)
+    last_msg = models.ForeignKey(Messages,on_delete=models.CASCADE,null=True,blank=True) 
+    users = models.ManyToManyField(CustomUser)
