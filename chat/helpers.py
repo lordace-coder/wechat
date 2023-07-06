@@ -7,6 +7,10 @@ def generate_room_name(sender,reciever):
     result = f"{sorted_data[0]}_{sorted_data[1]}"
     return result
 
+def format_roomname(name:str):
+    if ' ' in name:
+        name = name.replace(' ','_')
+    return name
 
 class MessageSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='author.username')
@@ -24,17 +28,50 @@ class MessageSerializer(serializers.ModelSerializer):
     def get_profile_image(self,obj):
         return obj.author.get_image_url()
 
-def format_roomname(name:str):
-    if ' ' in name:
-        name = name.replace(' ','_')
-    return name
 
 # todo serialize recent messages and return a list of dicts
-def user_to_dict(instance)->dict:
-    user = dict()
-    user['username'] = instance.username
-    user['email'] = instance.email
-    user['bio'] = instance.bio
-    user['id'] = instance.id
-    user['profile_image'] = instance.get_image_url()
-    return user
+class RecentMessageSerializer(serializers.ModelSerializer):
+    time = serializers.CharField(source='last_msg.time')
+    username = serializers.SerializerMethodField(read_only = True)
+    profile_image = serializers.SerializerMethodField(read_only = True)
+    last_msg = serializers.SerializerMethodField(read_only = True)
+    id = serializers.SerializerMethodField(read_only = True)
+    
+    class Meta:
+        model = RecentMsg
+        fields=[
+            'last_msg',
+            'profile_image',
+            'username',
+            'time',
+            'id'
+        ]
+    
+    
+    
+    def get_contact(self,obj):
+        current_user = self.context.get('user')
+        user = obj.users.exclude(id= current_user.id)[0]
+        return user
+    
+    
+    
+    def get_username(self,obj):
+        user = self.get_contact(obj)
+        return user.username
+    
+    def get_last_msg(self,obj):
+        msg = obj.last_msg.message
+        if len(msg) >= 18:
+            return f"{msg[0:18]}..."
+        else:
+            return msg
+    
+    def get_profile_image(self,obj):
+        user = self.get_contact(obj)
+        return user.get_image_url()
+    
+    def get_id(self,obj):
+        id = self.get_contact(obj).id
+        return id
+        

@@ -6,7 +6,7 @@ from django.shortcuts import redirect, render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.views import generic
-from .helpers import MessageSerializer, format_roomname, generate_room_name
+from .helpers import MessageSerializer, format_roomname, generate_room_name,RecentMessageSerializer
 from .models import CustomUser, Groups, Messages, RecentMsg
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
@@ -22,10 +22,9 @@ class IndexView(LoginRequiredMixin,generic.TemplateView):
         current_user = self.request.user
         users = CustomUser.objects.none()
         recents = RecentMsg.objects.filter(users = self.request.user).order_by('-last_msg')
-        # TODO: serialize this info and only include values lyk the other users info and lastmsg do this in the helpers.py
-        for i in recents:
-            print(i.users.all(),'users')
+        serializer = RecentMessageSerializer(recents,many = True,context={'user':request.user})
         context = {
+            'users':serializer.data,
             'view_name':'index'
         }
         return context
@@ -34,6 +33,7 @@ class IndexView(LoginRequiredMixin,generic.TemplateView):
     
     def get(self,*args, **kwargs):
         context = self.get_context()
+        
         return render(self.request, 'index.html', context)
     
     
