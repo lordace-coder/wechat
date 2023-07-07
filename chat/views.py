@@ -125,7 +125,7 @@ def group_room(request, groupName):
 
 # # grab messages on entering room
 # # api response
-@login_required()
+
 @api_view(["GET"])
 def get_messages(request,roomName):
     if Groups.objects.filter(name=roomName).exists():
@@ -133,8 +133,8 @@ def get_messages(request,roomName):
         messages = Messages.objects.filter(group = group)
         serialized_data = MessageSerializer(messages,many=True)
         return Response(serialized_data.data)
-    if request.user.username not in roomName:
-        return Response(status=404)
+    # if request.user.username not in roomName:
+    #     return Response(status=404)
     messages = Messages.objects.filter(reciever = roomName)
     serialized_data = MessageSerializer(messages,many=True)
     return Response(serialized_data.data)

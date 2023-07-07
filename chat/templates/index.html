@@ -8,7 +8,7 @@
 
     {% include 'nav_links.html' %}
 </head>
-<body class="antialiased">
+<body class="antialiased tw-bg-purple-800 ">
     
     {% include 'nav.html' %}
 
@@ -22,13 +22,13 @@
     
     {% for i in groups %}
     <li>
-               <a href="{{i}}" class="flex p-4 gap-3 items-center border-b-2">
+               <a href="{{i}}" class="flex p-4 gap-3 items-center shadow-lg">
                    <!-- room bg image/room icon -->
                    <div class=" rounded-full {% cycle 'bg-blue-300' 'bg-red-300' 'bg-green-300' %} text-white text-center">
                        <p class="py-2 px-3">{{i.name.0 |title}}</p>
                    </div>
                    <div class="">
-                       <div  class="text-lg font-semibold flex items-center gap-2">
+                       <div  class="text-lg text-white font-semibold flex items-center gap-2">
                            <p>{{i.name}}</p>
 
                            <!-- active group notifier -->

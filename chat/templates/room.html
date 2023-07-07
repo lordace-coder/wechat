@@ -16,17 +16,18 @@
 
 <body class="bg-gray-300 overflow-x-hidden">
         <!-- chat bar -->
+      
         <nav class="fixed top-0 w-[100vw] py-4 px-3 bg-blue-500 text-white ">
             <div  class='flex gap-3'>
                 <a onclick='window.history.back()' class='text-xl tw-cursor-pointer'>&laquo;</a>
                 {% if private_room == True %}
                     <a href='{% url 'profile' recipient %}'>
-                        <p  class="text-lg font-semibold hover:text-xl transition-all">{{recipient}}</p>
+                        <p  class="text-lg font-semibold hover:text-xl transition-all tw-cursor-pointer">{{recipient}}</p>
                     </a> 
                 {% else %}
-                <a href="{% url 'profile' recipient.username %}">
-                    <p  class="text-lg font-semibold hover:text-xl transition-all">{{recipient.username}}</p>
-                </a>
+               
+                    <p  class="text-lg font-semibold hover:text-xl transition-all tw-cursor-pointer">{{recipient}}</p>
+          
                 {% endif %}
 
             </div>
@@ -37,7 +38,6 @@
          <!-- chats container -->
      
             <div id='chat-cont' class="px-5 tw-pt-36 mb-[100px] w-[100vw] ">  
-            
             </div>
    
  
@@ -63,7 +63,7 @@
             chatSocket.send(JSON.stringify({
                 'message': message,
                 'username': user_username,
-                'profile_image':'{{request.user.profile_image}}'
+                'profile_image':'{{request.user.get_image_url}}'
             }));
             messageInputDom.value = '';
         };
@@ -89,8 +89,6 @@
 
 
         function create_message(data){
-          //document.querySelector('#chat-text').value += (data.username + ': ' + data.message + '\n')
-            //append new message into (#chat-cont)
 
             if (data.username == user_username) {
                 // if the current user owns this message

@@ -71,8 +71,7 @@ class Messages(models.Model):
             
             return recent_msg.save()
         except Exception as e:
-            print(self.reciever)
-            print('error',e)
+            ...
         return super().save(*args, **kwargs)
 
 

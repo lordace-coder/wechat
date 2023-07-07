@@ -5,7 +5,8 @@
     <meta charset="utf-8"/>
     <title>{{user.username}}'s profile</title>
    <link rel="stylesheet" href="{% static 'styles.css' %}"> 
-   <link rel="stylesheet" href="{% static 'unprefixed.css' %}"> 
+   <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
    
  {% comment %} temporary {% endcomment %}
  
@@ -14,8 +15,8 @@
 </head>
 <body class="antialiased">
     {% include 'nav.html' %}
-    <div class="tw-bg-gray-300 tw-flex tw-items-center tw-justify-center tw-h-[100vh]">
-        <div class="tw-w-[100vw] tw-pt-7 tw-h-[100vh] tw-bg-pink-400 tw-max-w-[400px] tw-max-h-[500px] tw-text-black tw-rounded-lg tw-shadow-2xl">
+    <div class="tw-bg-[#175873] tw-flex tw-items-center tw-justify-center tw-h-[100vh]">
+        <div class="tw-w-[100vw] tw-pt-7 tw-h-[100vh] tw-bg-[#2b7c85] tw-max-w-[400px] tw-max-h-[500px] tw-text-black tw-rounded-lg tw-shadow-2xl">
             <!-- profile image -->
             <a href="">
                 {% if my_profile %}
@@ -45,12 +46,18 @@
             <p class="tw-text-center tw-text-white tw-text-lg tw-font-light tw-max-w-lg tw-mx-auto">{{user.bio}}</p>
             {% if not my_profile %}
               <div class="tw-flex tw-justify-center tw-mt-4">
-                <a href="{% url 'room' user.id %}" class="classic-btn tw-sha tw-bg-red-500 tw-text-white active:tw-bg-red-600 ">Message</a>        
+                <a href="{% url 'room' user.id %}" class="classic-btn tw-sha tw-bg-green-500 tw-text-white rounded px-4 py-2 active:tw-bg-green-600 ">
+                  <i class="fa fa-comments" aria-hidden="true"></i>
+
+                  Message</a>        
               </div>
             
               {% else %}
               <div class="tw-flex tw-justify-center tw-mt-4">
-                <a href="{% url 'update_profile' %}" class="classic-btn tw-sha tw-bg-green-500 tw-text-white active:tw-bg-red-600 ">UpdateProfile</a>        
+                <a href="{% url 'update_profile' %}" class="classic-btn tw-sha px-4 py-2 rounded bg-green-500 text-white active:tw-bg-red-600 ">
+                  <i class='fa fa-cog'></i>
+                  Settings
+                </a>        
               </div>
             {% endif %}
     

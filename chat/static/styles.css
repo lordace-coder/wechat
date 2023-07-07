@@ -514,20 +514,11 @@ h5 {
 .tw-h-\[100vh\] {
   height: 100vh;
 } 
-.tw-max-h-\[400px\] {
-  max-height: 400px;
+.tw-max-h-\[150px\] {
+  max-height: 150px;
 } 
 .tw-max-h-\[500px\] {
   max-height: 500px;
-} 
-.tw-max-h-\[200px\] {
-  max-height: 200px;
-} 
-.tw-max-h-\[150\] {
-  max-height: 150;
-} 
-.tw-max-h-\[150px\] {
-  max-height: 150px;
 } 
 .tw-w-\[100vw\] {
   width: 100vw;
@@ -535,20 +526,14 @@ h5 {
 .tw-w-full {
   width: 100%;
 } 
-.tw-max-w-lg {
-  max-width: 32rem;
-} 
-.tw-max-w-\[500px\] {
-  max-width: 500px;
-} 
-.tw-max-w-\[480px\] {
-  max-width: 480px;
+.tw-max-w-\[200px\] {
+  max-width: 200px;
 } 
 .tw-max-w-\[400px\] {
   max-width: 400px;
 } 
-.tw-max-w-\[200px\] {
-  max-width: 200px;
+.tw-max-w-lg {
+  max-width: 32rem;
 } 
 .tw-translate-x-\[-50\%\] {
   --tw-translate-x: -50%;
@@ -569,13 +554,13 @@ h5 {
 .tw-rounded-lg {
   border-radius: 0.5rem;
 } 
+.tw-bg-\[\#175873\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(23 88 115 / var(--tw-bg-opacity));
+} 
 .tw-bg-gray-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
-} 
-.tw-bg-gray-300 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(209 213 219 / var(--tw-bg-opacity));
 } 
 .tw-bg-green-300 {
   --tw-bg-opacity: 1;
@@ -588,6 +573,28 @@ h5 {
 .tw-bg-red-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(239 68 68 / var(--tw-bg-opacity));
+} 
+.tw-bg-\[\#2b7c85\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(43 124 133 / var(--tw-bg-opacity));
+} 
+.tw-bg-green-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(34 197 94 / var(--tw-bg-opacity));
+} 
+.tw-bg-\[\#0c1446\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(12 20 70 / var(--tw-bg-opacity));
+} 
+.tw-bg-\[\#17583\] {
+  background-color: #17583;
+} 
+.\!tw-bg-\[\#17583\] {
+  background-color: #17583 !important;
+} 
+.tw-bg-purple-800 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(107 33 168 / var(--tw-bg-opacity));
 } 
 .tw-object-center {
   -o-object-position: center;
@@ -630,25 +637,19 @@ h5 {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
 } 
-.tw-shadow-lg {
-  --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+.\!tw-text-white {
+  --tw-text-opacity: 1 !important;
+  color: rgb(255 255 255 / var(--tw-text-opacity)) !important;
 } 
 .tw-shadow-2xl {
   --tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
   --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 } 
-.tw-transition-all {
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-} 
-.tw-transition-transform {
-  transition-property: transform;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+.tw-shadow-lg {
+  --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 } 
 .tw-transition-\[position\] {
   transition-property: position;
@@ -661,12 +662,9 @@ h5 {
     scroll-behavior: smooth;
 }
 
-.classic-btn {
-  border-radius: 0.5rem;
-  padding: 0.75rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-}
+/* .classic-btn{
+    @apply tw-p-3 tw-py-2 tw-rounded-lg;
+} */
 /* tag loops */
 /* .blue{
     @apply bg-blue-300;
@@ -681,26 +679,18 @@ h5 {
   --tw-bg-opacity: 1;
   background-color: rgb(220 38 38 / var(--tw-bg-opacity));
 }
+.active\:tw-bg-green-600:active {
+  --tw-bg-opacity: 1;
+  background-color: rgb(22 163 74 / var(--tw-bg-opacity));
+}
 @media (min-width: 768px) {
 
   .md\:tw-absolute {
     position: absolute;
   }
 
-  .md\:tw-top-full {
-    top: 100%;
-  }
-
-  .md\:tw-top-\[50\%\] {
-    top: 50%;
-  }
-
   .md\:tw-left-\[50\%\] {
     left: 50%;
-  }
-
-  .md\:tw-mt-\[200px\] {
-    margin-top: 200px;
   }
 
   .md\:tw-mt-\[100px\] {

@@ -2,7 +2,7 @@
 <li>
         
     <!-- room bg image/room icon -->
-    <div class='flex p-4 gap-3 items-center border-b-2'>
+    <div class='flex p-4 gap-3 text-white items-center shadow-md'>
             {% if i.get_image_url %}
                       <div class=" rounded-full {% cycle 'bg-blue-300' 'bg-red-300' 'tw-bg-green-300' %} text-white text-center">
                 <a href="{% url 'profile' i.username %}">
